@@ -1,3 +1,4 @@
-# CoffeeScript Work Environment
+CoffeeScript Work Environment
 =============================
-### My basic boilterplate for frontend Coffeescript work.
+My basic boilterplate for frontend Coffeescript work.
+Includes testing.
