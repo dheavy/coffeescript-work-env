@@ -25,21 +25,19 @@ Use a config object with these settings as attributes:
 ###
 build = (args) ->
 
-	console?.log '================ start building ================='
-	
+	console?.log '================ building ================='
+
 	opts = ['-c', '-o']
 	opts.push '-w' if args?.watch?
 	opts.push '-m' if args?.srcMap?
 	opts.push '-j' if args?.joinFile?
 	opts = opts.concat [lib, src]
-	
-	coffee = spawn 			'coffee', opts
-	coffee.stderror.on 	'data', (data) -> process.stderr.write data.toString()
-	coffee.stdout.on 		'data', (data) -> process.stdout.write data.toString()
+
+	coffee = spawn 		'coffee', opts
+	coffee.stderr.on 	'data', (data) -> process.stderr.write data.toString()
+	coffee.stdout.on 	'data', (data) -> process.stdout.write data.toString()
 
 	coffee.on 					'exit', (code) -> callback?() if code is 0
-
-	console?.log '================ end building ================='
 
 
 task 'build', 'build coffee to js, from src dir to lib dir', -> build()
