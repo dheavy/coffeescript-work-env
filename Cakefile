@@ -37,7 +37,7 @@ build = (args) ->
 	coffee.stderr.on 	'data', (data) -> process.stderr.write data.toString()
 	coffee.stdout.on 	'data', (data) -> process.stdout.write data.toString()
 
-	coffee.on 					'exit', (code) -> callback?() if code is 0
+	coffee.on 				'exit', (code) -> callback?() if code is 0
 
 
 task 'build', 'build coffee to js, from src dir to lib dir', -> build()
