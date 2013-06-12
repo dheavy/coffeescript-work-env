@@ -20,18 +20,24 @@ Simple build of all .coffee files from source to output folders.
 Use a config object with these settings as attributes:
 @param	callback	Function 	callback function invoked concludingly
 @param	watch			boolean		watch changes in src dir
-@param	joinFile	boolean		join/concatenate files in the order they were passed
+@param	joinFiles	boolean		join/concatenate files in the order they were passed
 @param	srcMap		boolean		use source maps
 ###
 build = (args) ->
 
 	console?.log '================ building ================='
 
-	opts = ['-c', '-o']
-	opts.push '-w' if args?.watch?
-	opts.push '-m' if args?.srcMap?
-	opts.push '-j' if args?.joinFile?
-	opts = opts.concat [lib, src]
+	msg  = ''
+	flags = []
+	opts = ['-c']
+	opts.push('-w') and flags.push('-w') and msg += "- watching directory #{lib}...\n" if args?.watch?
+	opts.push('-m') and flags.push('-m') and msg += "- building source maps\n" if args?.srcMap?
+	opts.push('-j', "#{lib}/#{filename}.js") and flags.push('-j') and msg += "- joining files" if args?.joinFiles?
+	opts.push '-o', lib
+	opts.push src
+
+	f = flags.join()
+	console?.log "- building with flag(s) #{f}" unless flags.length is 0
 
 	coffee = spawn 		'coffee', opts
 	coffee.stderr.on 	'data', (data) -> process.stderr.write data.toString()
@@ -39,5 +45,11 @@ build = (args) ->
 
 	coffee.on 				'exit', (code) -> callback?() if code is 0
 
+	console?.log 			msg
 
-task 'build', 'build coffee to js, from src dir to lib dir', -> build()
+###
+Minify #{filename} if it exists in the lib dir. Outputs it as #{filename}.min.js.
+###
+
+
+task 'build', 'build coffee to js, from src dir to lib dir', -> build(joinFiles:true, srcMap:true, watch:true)
