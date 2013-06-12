@@ -68,9 +68,10 @@ minify = (args) ->
 		callback?()
 		console?.log '- done!'
 
-# Tasks
+# Tasks 
 # =================================================
 task 'build', 		 'build coffee to js, from src dir to lib dir', -> build()
 task 'build:min',  'build, join, minify', -> build(joinFiles:true, srcMap:true, callback: minify)
 task 'build:dist', 'build, join, minify and place in dist dir - override to fit your needs', ->
+	console.log "Messages may appear in the wrong order... don't mind this..."
 	build(joinFiles:true, srcMap:true, callback: do() -> minify(output: dist))
