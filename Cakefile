@@ -7,12 +7,12 @@ fs 			= require 'fs'
 
 # Basename for app. Source and output folders.
 # =================================================
-filename 	= 'app'
-lib				= 'lib'
-dist			= 'dist'
-src 			= 'src'
-test 			= 'test'
-spec 			= "#{test}/spec"
+filename = 'app'
+lib      = 'lib'
+dist     = 'dist'
+src      = 'src'
+test     = 'test'
+spec     = "#{test}/spec"
 
 # Functions
 # =================================================
@@ -29,8 +29,8 @@ build = (args) ->
 
 	console?.log '================ building ================='
 
-	msg  = ''				# Log message
-	flags = []			# Store flags command for log
+	msg   = ''      # Log message
+	flags = []      # Store flags command for log
 	opts = ['-c']
 	opts.push('-w') and flags.push('-w') and msg += "- watching directory #{lib}...\n" if args?.watch?
 	opts.push('-m') and flags.push('-m') and msg += "- building source maps\n" if args?.srcMap?
@@ -39,13 +39,13 @@ build = (args) ->
 	opts.push src
 
 	f = flags.join()
-	console?.log 			"- building with flag(s) #{f}" unless flags.length is 0
+	console?.log      "- building with flag(s) #{f}" unless flags.length is 0
 
-	coffee = spawn 		'coffee', opts
-	coffee.stderr.on 	'data', (data) -> process.stderr.write data.toString()
-	coffee.stdout.on 	'data', (data) -> process.stdout.write data.toString()
+	coffee = spawn    'coffee', opts
+	coffee.stderr.on  'data', (data) -> process.stderr.write data.toString()
+	coffee.stdout.on  'data', (data) -> process.stdout.write data.toString()
 
-	coffee.on 				'exit', (code) -> args?.callback?() if code is 0
+	coffee.on         'exit', (code) -> args?.callback?() if code is 0
 
 	# Move test files to the main test/spec/ folder
 	fs.exists "#{lib}/#{spec}", (exists) ->
@@ -83,7 +83,7 @@ minify = (args) ->
 
 # Tasks 
 # =================================================
-task 'build', 		 'build coffee to js, from src dir to lib dir', -> build()
+task 'build',      'build coffee to js, from src dir to lib dir', -> build()
 
 task 'build:min',  'build, join, minify', -> build(joinFiles:true, srcMap:true, callback: minify)
 
