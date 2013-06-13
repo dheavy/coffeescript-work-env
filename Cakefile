@@ -1,6 +1,6 @@
 # Imports
 # =================================================
-fs 			= require 'fs'
+fs      = require 'fs'
 {print} = require 'sys'
 {spawn} = require 'child_process'
 {exec} 	= require 'child_process'
