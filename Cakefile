@@ -66,8 +66,8 @@ Use an args object with these settings as attributes:
 ###
 minify = (args) ->
 
-	console?.log 			'================ minifying ================='
-	console?.log 			'- please wait...'
+	console?.log '================ minifying ================='
+	console?.log '- please wait...'
 
 	# Set default output file if none provided
 	if args?.output? 
